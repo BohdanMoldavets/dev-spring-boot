@@ -11,7 +11,7 @@ public class DemoController {
     private Coach theCoach;
 
     @Autowired
-    public DemoController(Coach theCoach) {
+    void setCoach(Coach theCoach) {
         this.theCoach = theCoach;
     }
 
@@ -19,4 +19,6 @@ public class DemoController {
     public String dailyWorkout() {
         return theCoach.getDailyWorkout();
     }
+
+
 }
