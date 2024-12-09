@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Hello world - process form</title>
     <link rel="stylesheet"
         th:href="@{/css/demo.css}"
     />
 </head>
 <body>
-    <p th:text="'Time on server now is: ' + ${theDate}" class="funny" />
+    <p th:text="'Hello ' + ${param.studentName}" class="text" />
+    <br><br>
+    The message: <span th:text="${secondResponse}"/>
+    <br><br>
+    Advice: <span th:text="${thirdResponse}"/>
 </body>
 </html>
