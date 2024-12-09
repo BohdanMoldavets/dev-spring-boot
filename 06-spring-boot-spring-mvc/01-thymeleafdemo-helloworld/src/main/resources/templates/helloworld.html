@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello world - process form</title>
+    <link rel="stylesheet"
+        th:href="@{/css/demo.css}"
+    />
+</head>
+<body>
+    <p th:text="'Hello ' + ${param.studentName}" class="text" />
+    <br><br>
+    The message: <span th:text="${secondResponse}"/>
+    <br><br>
+    Advice: <span th:text="${thirdResponse}"/>
+</body>
+</html>
