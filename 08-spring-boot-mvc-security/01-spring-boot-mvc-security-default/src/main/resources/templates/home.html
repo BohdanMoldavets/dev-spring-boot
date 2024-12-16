@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Moldavets Company Home Page</title>
+</head>
+<body>
+
+    <h2>Moldavets Company Home Page</h2>
+    <hr>
+    <p>
+        Welcome to the Moldavets Company Home Page!
+    </p>
+    <hr>
+    <p>
+        User:<span sec:authentication="principal.username"></span>
+        <br><br>
+        Password: <span sec:authentication="principal.authorities"></span>
+    </p>
+
+    <div sec:authorize="hasRole('MANAGER')">
+        <hr>
+        <a href="#" th:href="@{/leaders}">Leadership meeting</a>
+        (Only for Mangers)
+        <span sec:authorize="hasRole('ADMIN')">But admins is better!</span>
+        <br>
+    </div>
+    <div sec:authorize="hasRole('ADMIN')">
+        <a href="#" th:href="@{/systems}">Admins meeting</a>
+        (Only for Admins)
+    </div>
+    <hr>
+    <form action="#" th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout">
+    </form>
+
+</body>
+</html>
