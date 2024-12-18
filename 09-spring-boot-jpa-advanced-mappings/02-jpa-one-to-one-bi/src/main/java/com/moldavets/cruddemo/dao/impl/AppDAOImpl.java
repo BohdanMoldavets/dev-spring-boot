@@ -2,6 +2,7 @@ package com.moldavets.cruddemo.dao.impl;
 
 import com.moldavets.cruddemo.dao.AppDAO;
 import com.moldavets.cruddemo.entity.Instructor;
+import com.moldavets.cruddemo.entity.InstructorDetail;
 import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,21 @@ public class AppDAOImpl implements AppDAO {
         Instructor instructor = entityManager.find(Instructor.class, id);
 
         entityManager.remove(instructor);
+
+    }
+
+    @Override
+    public InstructorDetail findInstructorDetailById(int id) {
+        return entityManager.find(InstructorDetail.class, id);
+    }
+
+    @Override
+    @Transactional
+    public void deleteInstructorDetailById(int id) {
+
+        InstructorDetail instructorDetail = entityManager.find(InstructorDetail.class, id);
+
+        entityManager.remove(instructorDetail);
 
     }
 }
