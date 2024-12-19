@@ -1,6 +1,7 @@
 package com.moldavets.cruddemo;
 
 import com.moldavets.cruddemo.dao.AppDAO;
+import com.moldavets.cruddemo.entity.Course;
 import com.moldavets.cruddemo.entity.Instructor;
 import com.moldavets.cruddemo.entity.InstructorDetail;
 import org.springframework.boot.CommandLineRunner;
@@ -22,7 +23,14 @@ public class CruddemoApplication {
 			//findInstructor(appDAO);
 			//deleteInstructor(appDAO);
 			//findInstructorDetailById(appDAO);
-			deleteInstructorDetailById(appDAO);
+			//deleteInstructorDetailById(appDAO);
+			//createInstructorWithCourses(appDAO);
+			//findInstructorWithCourses(appDAO);
+			//findCoursesForInstructor(appDAO);
+			//findInstructorWithCoursesJoinFetch(appDAO);
+			//updateInstructor(appDAO);
+			//updateCourse(appDAO);
+			deleteCourse(appDAO);
 		};
 	}
 
@@ -60,7 +68,7 @@ public class CruddemoApplication {
 	}
 
 	private static void deleteInstructor(AppDAO appDAO) {
-		int id = 3;
+		int id = 1;
 
 		System.out.println("Deleting the instructor by id:" + id);
 		appDAO.deleteInstructorById(id);
@@ -78,6 +86,107 @@ public class CruddemoApplication {
 		System.out.println("Deleting the instructor detail by id: " + id);
 		appDAO.deleteInstructorDetailById(id);
 		System.out.println("Instructor detail deleted");
+	}
+
+	private static void createInstructorWithCourses(AppDAO appDAO) {
+		Instructor tempInstructor =
+				new Instructor(
+						"Susan",
+						"Doe",
+						"susan@gmail.com"
+				);
+
+		InstructorDetail tempInstructorDetail =
+				new InstructorDetail(
+						"http://www.youtube.com/susan",
+						"Video Games"
+				);
+
+
+		tempInstructor.setInstructorDetail(tempInstructorDetail);
+
+		Course tempCourse1 = new Course("Dota2");
+		Course tempCourse2 = new Course("CS");
+		Course tempCourse3 = new Course("Minecraft");
+
+		tempInstructor.addCourse(tempCourse1);
+		tempInstructor.addCourse(tempCourse2);
+		tempInstructor.addCourse(tempCourse3);
+
+		System.out.println("Saving the instructor: " + tempInstructor);
+		System.out.println("The courses:" + tempInstructor.getCourses());
+		appDAO.save(tempInstructor);
+	}
+
+	private static void findInstructorWithCourses(AppDAO appDAO) {
+
+		int id = 1;
+		System.out.println("Finding the instructor by id:" + id);
+
+		Instructor tempInstructor = appDAO.findInstructorById(id);
+		System.out.println("tempInstructor: " + tempInstructor);
+		System.out.println("Associated courses:" + tempInstructor.getCourses());
+		System.out.println("Done");
+
+
+	}
+
+	private static void findCoursesForInstructor(AppDAO appDAO) {
+
+		int id = 1;
+		System.out.println("Finding the instructor by id:" + id);
+
+		Instructor tempInstructor = appDAO.findInstructorById(id);
+		System.out.println("tempInstructor: " + tempInstructor);
+		System.out.println("Associated courses: " + appDAO.findCoursesByInstructorId(id));
+		System.out.println("Done");
+	}
+
+	private static void findInstructorWithCoursesJoinFetch(AppDAO appDAO) {
+		int id = 1;
+
+		System.out.println("Finding the instructor by id:" + id);
+
+		Instructor tempInstructor = appDAO.findInstructorByIdJoinFetch(id);
+
+		System.out.println("tempInstructor: " + tempInstructor);
+		System.out.println("Associated courses:" + tempInstructor.getCourses());
+	}
+
+	private static void updateInstructor(AppDAO appDAO) {
+		int id = 1;
+
+		System.out.println("Finding the instructor by id:" + id);
+		Instructor tempInstructor = appDAO.findInstructorById(id);
+		System.out.println("tempInstructor: " + tempInstructor);
+		tempInstructor.setLastName("TEST");
+
+		System.out.println("Updating the instructor: " + tempInstructor);
+		appDAO.update(tempInstructor);
+		System.out.println("Done");
+	}
+
+	private static void updateCourse(AppDAO appDAO) {
+		int id = 3;
+
+		System.out.println("Finding the course by id:" + id);
+		Course tempCourse = appDAO.findCourseById(id);
+		System.out.println("tempCourse: " + tempCourse);
+
+		System.out.println("Updating the course: " + tempCourse);
+		tempCourse.setTitle("TEST");
+		appDAO.update(tempCourse);
+
+		System.out.println("Done");
+	}
+
+	private static void deleteCourse(AppDAO appDAO) {
+		int id = 3;
+
+		System.out.println("Deleting the course by id:" + id);
+		appDAO.deleteCourseById(id);
+		System.out.println("Done");
+
 	}
 
 }
