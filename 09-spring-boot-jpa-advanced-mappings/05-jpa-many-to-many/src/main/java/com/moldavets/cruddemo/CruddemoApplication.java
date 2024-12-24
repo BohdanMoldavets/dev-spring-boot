@@ -4,6 +4,7 @@ import com.moldavets.cruddemo.dao.AppDAO;
 import com.moldavets.cruddemo.entity.Course;
 import com.moldavets.cruddemo.entity.Instructor;
 import com.moldavets.cruddemo.entity.InstructorDetail;
+import com.moldavets.cruddemo.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,18 +20,8 @@ public class CruddemoApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(AppDAO appDAO) {
 		return runner -> {
-			//createInstructor(appDAO);
-			//findInstructor(appDAO);
-			//deleteInstructor(appDAO);
-			//findInstructorDetailById(appDAO);
-			//deleteInstructorDetailById(appDAO);
-			//createInstructorWithCourses(appDAO);
-			//findInstructorWithCourses(appDAO);
-			//findCoursesForInstructor(appDAO);
-			//findInstructorWithCoursesJoinFetch(appDAO);
-			//updateInstructor(appDAO);
-			//updateCourse(appDAO);
-			deleteCourse(appDAO);
+//			createCourseAndReviews(appDAO);
+			retrieveCourseAndReviews(appDAO);
 		};
 	}
 
@@ -186,6 +177,28 @@ public class CruddemoApplication {
 		System.out.println("Deleting the course by id:" + id);
 		appDAO.deleteCourseById(id);
 		System.out.println("Done");
+
+	}
+
+	private static void createCourseAndReviews(AppDAO appDAO) {
+		Course tempCourse1 = new Course("Java course 1");
+		tempCourse1.addReview(new Review("Great course!"));
+		tempCourse1.addReview(new Review("Very great course!"));
+		tempCourse1.addReview(new Review("Awesome course!"));
+
+		System.out.println("Saving the course");
+		System.out.println(tempCourse1);
+		System.out.println(tempCourse1.getReviews());
+		appDAO.save(tempCourse1);
+	}
+
+	private static void retrieveCourseAndReviews(AppDAO appDAO) {
+		int id = 1;
+
+		Course tempCourse = appDAO.findCourseAndReviewsById(id);
+
+		System.out.println(tempCourse);
+		System.out.println(tempCourse.getReviews().toString());
 
 	}
 
