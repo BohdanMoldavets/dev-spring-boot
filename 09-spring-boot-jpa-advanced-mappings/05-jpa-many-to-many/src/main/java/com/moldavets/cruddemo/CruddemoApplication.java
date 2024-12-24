@@ -1,7 +1,10 @@
 package com.moldavets.cruddemo;
 
 import com.moldavets.cruddemo.dao.AppDAO;
-import com.moldavets.cruddemo.entity.*;
+import com.moldavets.cruddemo.entity.Course;
+import com.moldavets.cruddemo.entity.Instructor;
+import com.moldavets.cruddemo.entity.InstructorDetail;
+import com.moldavets.cruddemo.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,70 +21,8 @@ public class CruddemoApplication {
 	public CommandLineRunner commandLineRunner(AppDAO appDAO) {
 		return runner -> {
 //			createCourseAndReviews(appDAO);
-//			retrieveCourseAndReviews(appDAO);
-//			createCourseAndStudents(appDAO);
-//			retrieveCourseAndStudents(appDAO);
-//			findStudentAndCourses(appDAO);
-//			addMoreCoursesForStudent(appDAO);
-//			deleteCourse(appDAO);
-			deleteStudent(appDAO);
+			retrieveCourseAndReviews(appDAO);
 		};
-	}
-
-	private void deleteStudent(AppDAO appDAO) {
-		appDAO.deleteStudentById(1);
-	}
-
-	private void addMoreCoursesForStudent(AppDAO appDAO) {
-
-		Course course1 = new Course("More Course for Student");
-		Course course2 = new Course("Some private info");
-
-		Student tempStudent = appDAO.findStudentAndCoursesByStudentId(3);
-		tempStudent.addCourse(course1);
-		tempStudent.addCourse(course2);
-
-		System.out.println(tempStudent);
-		System.out.println(tempStudent.getCourses());
-
-		appDAO.update(tempStudent);
-
-	}
-
-	private void findStudentAndCourses(AppDAO appDAO) {
-
-	Student tempStudent = appDAO.findStudentAndCoursesByStudentId(3);
-
-	System.out.println(tempStudent);
-	System.out.println(tempStudent.getCourses());
-
-	}
-
-	private void retrieveCourseAndStudents(AppDAO appDAO) {
-
-		Course tempCourse = appDAO.findCourseAndStudentsByCourseId(1);
-
-		System.out.println(tempCourse);
-		System.out.println(tempCourse.getStudents());
-
-	}
-
-	private void createCourseAndStudents(AppDAO appDAO) {
-		Course course = new Course("How to do something");
-
-		Student student1 = new Student("John", "Doe","doe@gmail.com");
-		Student student2 = new Student("Margo", "Trosa","matrosa@gmail.com");
-		Student student3 = new Student("Eva", "Elfie","eva@gmail.com");
-
-		course.addStudent(student1);
-		course.addStudent(student2);
-		course.addStudent(student3);
-
-		System.out.println(course);
-		System.out.println(course.getStudents());
-
-		appDAO.save(course);
-
 	}
 
 	private static void createInstructor(AppDAO appDAO) {

@@ -23,19 +23,9 @@ public class Course {
     @JoinColumn(name = "instructor_id")             //used in my our project
     private Instructor instructor;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id")
     private List<Review> reviews;
-
-    @ManyToMany(fetch = FetchType.EAGER,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
-            CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(
-            name = "course_student",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
-    private List<Student> students;
 
     public Course() {
     }
@@ -83,27 +73,11 @@ public class Course {
         this.reviews.add(review);
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
-    public void addStudent(Student student) {
-        if (this.students == null) {
-            this.students = new ArrayList<>();
-        }
-        this.students.add(student);
-    }
-
     @Override
     public String toString() {
         return "Course{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", instructor=" + instructor +
                 '}';
     }
 }
