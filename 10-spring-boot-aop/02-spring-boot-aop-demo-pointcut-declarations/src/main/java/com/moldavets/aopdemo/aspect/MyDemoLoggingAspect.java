@@ -2,6 +2,9 @@ package com.moldavets.aopdemo.aspect;
 
 import com.moldavets.aopdemo.entity.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -9,11 +12,51 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Aspect
 @Component
 @Order(2)
 public class MyDemoLoggingAspect {
+
+    @Around("execution(* com.moldavets.aopdemo.service.*.getFortune(..))")
+    public Object aroundGetFortune(
+                    ProceedingJoinPoint joinPoint) throws Throwable {
+
+        String method = joinPoint.getSignature().toShortString();
+        System.out.println("\n===>Executing @Around on method: " + method);
+
+        long begin = System.currentTimeMillis();
+
+        Object result = joinPoint.proceed();
+
+        long end = System.currentTimeMillis();
+
+        long duration = end - begin;
+
+        System.out.println("\n===>Duration: " + duration / 1000.0 + " seconds");
+
+        return result;
+    }
+
+    @AfterReturning(
+            pointcut = "execution(* com.moldavets.aopdemo.dao.AccountDAO.findAccounts(..))",
+            returning = "result"
+    )
+    public void afterReturningFindAccountAdvice(JoinPoint joinPoint, List<Account> result) {
+        String method = joinPoint.getSignature().toShortString();
+
+        System.out.println("\n==> Executing @AfterReturning on method: " + method);
+        System.out.println("\n==> Result: " + result);
+
+        convertAccountNamesToUpperCase(result);
+
+        System.out.println("\n==> Result: " + result);
+    }
+
+    private void convertAccountNamesToUpperCase(List<Account> result) {
+        result.forEach(account -> account.setName(account.getName().toUpperCase()));
+    }
 
     @Before("com.moldavets.aopdemo.aspect.AopExpressions.forDaoPackageNoGetterSetter()")
     public void beforeAddAccountAdvice(JoinPoint joinPoint) {

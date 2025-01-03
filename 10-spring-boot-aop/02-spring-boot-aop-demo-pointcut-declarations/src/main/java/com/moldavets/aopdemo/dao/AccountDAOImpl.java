@@ -3,6 +3,11 @@ package com.moldavets.aopdemo.dao;
 import com.moldavets.aopdemo.entity.Account;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 @Component
 public class AccountDAOImpl implements AccountDAO {
 
@@ -20,6 +25,15 @@ public class AccountDAOImpl implements AccountDAO {
         return false;
     }
 
+
+    @Override
+    public List<Account> findAccounts() {
+        return Stream.of(
+            new Account("Hola","Hoo@gmail.com"),
+            new Account("Maks","maks@gmail.com"),
+            new Account("Mike","mike@gmail.com")
+        ).collect(Collectors.toList());
+    }
 
     public String getName() {
         System.out.println(getClass() + ": getName()");
