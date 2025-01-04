@@ -34,7 +34,7 @@ public class AopdemoApplication {
 		System.out.println("--->demoTheAroundAdvice");
 		System.out.println("Calling getFortune()");
 
-		String data = trafficFortuneService.getFortune();
+		String data = trafficFortuneService.getFortune(true);
 
 		System.out.println("Fortune: " + data);
 

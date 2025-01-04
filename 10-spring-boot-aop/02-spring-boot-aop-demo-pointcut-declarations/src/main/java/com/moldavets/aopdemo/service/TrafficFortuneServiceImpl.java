@@ -17,4 +17,14 @@ public class TrafficFortuneServiceImpl implements TrafficFortuneService {
         return "Today's fortune is good";
     }
 
+    @Override
+    public String getFortune(boolean b) {
+
+        if(b){
+            throw new RuntimeException("No fortune today");
+        }
+
+        return getFortune();
+    }
+
 }

@@ -28,7 +28,14 @@ public class MyDemoLoggingAspect {
 
         long begin = System.currentTimeMillis();
 
-        Object result = joinPoint.proceed();
+        Object result = null;
+
+        try {
+            result = joinPoint.proceed();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            result = "No fortune today, cos AOP is working good";
+        }
 
         long end = System.currentTimeMillis();
 
